@@ -1,6 +1,7 @@
 package br.com.jcls.bookservice.service;
 
 import br.com.jcls.bookservice.model.Book;
+import br.com.jcls.bookservice.proxy.CambioProxy;
 import br.com.jcls.bookservice.repository.BookRepository;
 import br.com.jcls.bookservice.response.Cambio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class BookService {
     @Autowired
     private BookRepository repository;
 
+    @Autowired
+    private CambioProxy cambioProxy;
+
     public Book findBook(Long id, String currency) {
 
         var bookOptional = repository.findById(id);
@@ -27,15 +31,7 @@ public class BookService {
         }
         var book = bookOptional.get();
 
-        var params = new HashMap<String, String>();
-        params.put("amount", book.getPrice().toString());
-        params.put("from", "USD");
-        params.put("to", currency);
-
-        var response = new RestTemplate().
-                getForEntity("http://localhost:8000/cambio-service/{amount}/{from}/{to}", Cambio.class, params);
-
-        var cambio = response.getBody();
+        var cambio = cambioProxy.getCambio(book.getPrice(), "USD", currency);
 
         var port = environment.getProperty("local.server.port");
         book.setCurrency(currency);
