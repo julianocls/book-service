@@ -35,7 +35,7 @@ public class BookService {
 
         var port = environment.getProperty("local.server.port");
         book.setCurrency(currency);
-        book.setEnvironment(port);
+        book.setEnvironment("Book por: " + port + " - Cambio port:" + cambio.getEnvironment());
         book.setPrice(cambio.getConvertedValue());
 
         return book;
