@@ -3,13 +3,9 @@ package br.com.jcls.bookservice.service;
 import br.com.jcls.bookservice.model.Book;
 import br.com.jcls.bookservice.proxy.CambioProxy;
 import br.com.jcls.bookservice.repository.BookRepository;
-import br.com.jcls.bookservice.response.Cambio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
 
 @Service
 public class BookService {
